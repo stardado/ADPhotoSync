@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ADPhotoSync 2.12.0\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Model/ADPhotoSyncPlugin.php
+msgid "AD photo synchronisation"
+msgstr "AD-Profilbilder"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Directory server"
+msgstr "Verzeichnisserver"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Bind user"
+msgstr "Bind-Benutzer"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Bind password"
+msgstr "Bind-Passwort"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Leave empty to keep the stored password"
+msgstr "Leer lassen, um das gespeicherte Passwort zu behalten"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Search base (DN)"
+msgstr "Suchbasis (DN)"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Mail attribute"
+msgstr "Mail-Attribut"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Photo attribute"
+msgstr "Foto-Attribut"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Verify the TLS certificate of the directory server"
+msgstr "TLS-Zertifikat des Verzeichnisservers prüfen"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Skip logins containing"
+msgstr "Logins überspringen, die enthalten"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Enable automatic synchronisation"
+msgstr "Automatische Synchronisation aktivieren"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Users per run"
+msgstr "Benutzer pro Durchlauf"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Minimum hours between runs"
+msgstr "Mindestabstand zwischen Durchläufen (Stunden)"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Retry users without a photo after (hours)"
+msgstr "Benutzer ohne Foto erneut versuchen nach (Stunden)"
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Replace photos that users uploaded themselves"
+msgstr "Selbst hochgeladene Bilder ersetzen"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Server, bind user, password and search base are required."
+msgstr "Server, Bind-Benutzer, Passwort und Suchbasis sind erforderlich."
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Login or mail address"
+msgstr "Login oder E-Mail-Adresse"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Synchronise this user"
+msgstr "Diesen Benutzer synchronisieren"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Fetches the photo for one account immediately, even if it is unchanged."
+msgstr "Holt das Foto für ein einzelnes Konto sofort, auch wenn es unverändert ist."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Test connection"
+msgstr "Verbindung testen"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Run synchronisation now"
+msgstr "Jetzt synchronisieren"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Last run"
+msgstr "Letzter Durchlauf"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "never"
+msgstr "nie"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Users with a synchronised photo"
+msgstr "Benutzer mit synchronisiertem Foto"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Users without any photo"
+msgstr "Benutzer ganz ohne Bild"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "No photo in Active Directory"
+msgstr "Kein Foto im Active Directory"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Connection successful: bound as \"%s\", search base readable."
+msgstr "Verbindung erfolgreich: angemeldet als \"%s\", Suchbasis lesbar."
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Connection failed"
+msgstr "Verbindung fehlgeschlagen"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Synchronisation finished"
+msgstr "Synchronisation abgeschlossen"
+
+#: Model/LdapPhotoSource.php
+msgid "Bind as \"%s\" failed: %s"
+msgstr "Anmeldung als \"%s\" fehlgeschlagen: %s"
+
+#: Model/LdapPhotoSource.php
+msgid "Bind succeeded, but searching \"%s\" failed: %s"
+msgstr "Anmeldung erfolgreich, aber die Suche in \"%s\" schlug fehl: %s"
+
+#: Model/LdapPhotoSource.php
+msgid ""
+"Bind succeeded, but no entry with a \"%s\" attribute was found under \"%s\". "
+"Check the search base."
+msgstr ""
+"Anmeldung erfolgreich, aber unter \"%2$s\" wurde kein Eintrag mit dem "
+"Attribut \"%1$s\" gefunden. Bitte die Suchbasis prüfen."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Check only, write nothing"
+msgstr "Nur prüfen, nichts schreiben"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Login"
+msgstr "Login"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Name"
+msgstr "Name"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Checked"
+msgstr "Geprüft"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Only the first entries are listed; the counter above gives the total."
+msgstr "Es werden nur die ersten Einträge aufgelistet; die Gesamtzahl steht oben."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid ""
+"Nothing recorded yet. Use 'Check only, write nothing' to find out which "
+"accounts the directory has no photo for."
+msgstr ""
+"Noch nichts erfasst. Mit „Nur prüfen, nichts schreiben“ ermitteln Sie, für "
+"welche Konten im Verzeichnis kein Foto hinterlegt ist."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Overview"
+msgstr "Überblick"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Photo taken from Active Directory"
+msgstr "Bild aus dem Active Directory übernommen"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "In Active Directory, but no photo stored"
+msgstr "Im Active Directory, aber ohne hinterlegtes Bild"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Not found in Active Directory"
+msgstr "Im Active Directory nicht gefunden"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "No mail address in the LMS"
+msgstr "Keine E-Mail-Adresse im LMS"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Errors"
+msgstr "Fehler"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "LMS accounts still without any picture"
+msgstr "LMS-Konten weiterhin ganz ohne Bild"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Reason"
+msgstr "Grund"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Nothing recorded."
+msgstr "Nichts erfasst."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Synchronise a single user"
+msgstr "Einzelnen Benutzer synchronisieren"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: View/ADPhotoSyncSettings.tpl
+msgid ""
+"No entry with this mail address exists in the search base. Usually a leaver, "
+"a typo in the LMS address, or an account outside the configured "
+"organisational unit."
+msgstr ""
+"Zu dieser E-Mail-Adresse existiert in der Suchbasis kein Eintrag. Meist ein "
+"ausgeschiedener Mitarbeiter, ein Tippfehler in der LMS-Adresse oder ein "
+"Konto außerhalb der eingestellten Organisationseinheit."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid ""
+"These accounts exist in Active Directory, but no picture is stored in the "
+"photo attribute. Someone has to upload one there; the plugin will pick it up "
+"on the next run."
+msgstr ""
+"Diese Konten existieren im Active Directory, im Foto-Attribut ist aber kein "
+"Bild hinterlegt. Dort muss jemand eines einpflegen; das Plugin übernimmt es "
+"dann beim nächsten Durchlauf."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid ""
+"These LMS accounts carry no mail address, so there is nothing to look the "
+"person up by."
+msgstr ""
+"Diese LMS-Konten haben keine E-Mail-Adresse, es fehlt also das Merkmal, über "
+"das die Person gesucht wird."
+
+#: View/ADPhotoSyncSettings.tpl
+msgid "Something went wrong for these accounts. The reason is shown next to each one."
+msgstr "Bei diesen Konten ist etwas schiefgelaufen. Der Grund steht jeweils daneben."
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "No entry for \"%s\" was found in Active Directory."
+msgstr "Zu \"%s\" wurde im Active Directory kein Eintrag gefunden."
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "\"%s\" has no mail address in the LMS, so there is nothing to look up."
+msgstr "\"%s\" hat im LMS keine E-Mail-Adresse, es gibt also nichts nachzuschlagen."
+
+#: Model/LdapPhotoSource.php
+msgid "Search for \"%s\" failed: %s"
+msgstr "Die Suche nach \"%s\" schlug fehl: %s"
+
+#: Model/PhotoSynchronizer.php
+msgid "No LMS account found for \"%s\"."
+msgstr "Zu \"%s\" wurde kein LMS-Konto gefunden."
+
+#: Model/PhotoSynchronizer.php
+msgid "\"%s\" is archived and is therefore skipped."
+msgstr "\"%s\" ist archiviert und wird deshalb übersprungen."
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Mail attributes (comma separated)"
+msgstr "Mail-Attribute (kommagetrennt)"
+
+#: Model/ADPhotoSyncSettings.php
+msgid ""
+"Add proxyAddresses to find people whose address changed: after a rename the "
+"former address survives only as a secondary entry there."
+msgstr ""
+"proxyAddresses ergänzen, um Personen mit geänderter Adresse zu finden: Nach "
+"einer Umbenennung existiert die frühere Adresse nur noch als sekundärer "
+"Eintrag darin."
+
+#: Model/ADPhotoSyncSettings.php
+msgid "Skip logins matching (comma separated, * allowed)"
+msgstr "Logins überspringen nach Muster (kommagetrennt, * erlaubt)"
+
+#: Model/PhotoSynchronizer.php
+msgid "\"%s\" is excluded by the skip pattern and is therefore ignored."
+msgstr "\"%s\" wird durch das Ausschlussmuster erfasst und deshalb ignoriert."
+
+#. Not a user-visible string: its translation carries the version the
+#. catalogue was built for, so a stale catalogue can be detected.
+#: Model/ADPhotoSync.php
+msgid "__catalogue_version__"
+msgstr "2.12.0"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid ""
+"The translations loaded by PHP are from version %s, but the plugin is "
+"version %s. Restart PHP (systemctl restart php-fpm) to pick up the current "
+"translations; until then some labels stay in English."
+msgstr ""
+"Die von PHP geladenen Übersetzungen stammen aus Version %s, das Plugin hat "
+"aber Version %s. Bitte PHP neu starten (systemctl restart php-fpm), damit "
+"die aktuellen Übersetzungen geladen werden; bis dahin bleiben einzelne "
+"Beschriftungen englisch."
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Base accounts still without any picture"
+msgstr "Basiskonten weiterhin ohne Bild"
+
+#: Controller/ADPhotoSyncSettingsController.php
+msgid "Secondary accounts (they inherit the base account picture)"
+msgstr "Zweitkonten (erben das Bild des Basiskontos)"
+
+#: Model/SyncResult.php
+msgid ""
+"examined %1$d, updated %2$d, unchanged %3$d, no photo %4$d, not in Active "
+"Directory %5$d, without a mail address %6$d, failed %7$d"
+msgstr ""
+"%1$d geprüft, %2$d aktualisiert, %3$d unverändert, %4$d ohne Foto, %5$d "
+"nicht im Active Directory, %6$d ohne E-Mail-Adresse, %7$d fehlgeschlagen"
+
+#: Model/SyncResult.php
+msgid ""
+"examined %1$d, would update %2$d, unchanged %3$d, no photo %4$d, not in "
+"Active Directory %5$d, without a mail address %6$d, failed %7$d"
+msgstr ""
+"%1$d geprüft, %2$d würden aktualisiert, %3$d unverändert, %4$d ohne Foto, "
+"%5$d nicht im Active Directory, %6$d ohne E-Mail-Adresse, %7$d fehlgeschlagen"

@@ -1,0 +1,91 @@
+name: Release
+
+# Builds the installable plugin archive whenever a version tag is pushed.
+#
+# GitHub's own "Source code (zip)" cannot be used to install the plugin: it wraps
+# everything in a top-level folder, so plugin.ini does not sit at the archive
+# root and eFront rejects the upload. This workflow produces an archive that does
+# have the right shape, and refuses to publish one that does not.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag and plugin.ini must agree
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          ini="$(sed -n 's/^version *= *//p' plugin.ini | tr -d '"'"'"'\r ')"
+          echo "tag: $tag — plugin.ini: $ini"
+          if [ "$tag" != "$ini" ]; then
+            echo "::error::Tag $tag does not match the version in plugin.ini ($ini)"
+            exit 1
+          fi
+
+      - name: Syntax check
+        run: |
+          find Model Controller -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Build ADPhotoSync.zip
+        run: |
+          mkdir -p dist
+          # Runtime files only, and no wrapping folder: plugin.ini has to be at
+          # the root of the archive.
+          zip -r -q dist/ADPhotoSync.zip \
+            plugin.ini \
+            bootstrap.php \
+            composer.json \
+            translations.php \
+            README.md \
+            LICENSE \
+            Model \
+            Controller \
+            View \
+            assets \
+            i18n \
+            -x '*/.git/*' '*.cache' '.DS_Store'
+
+      - name: Verify the archive layout
+        run: |
+          unzip -l dist/ADPhotoSync.zip
+
+          if ! unzip -Z1 dist/ADPhotoSync.zip | grep -qx 'plugin.ini'; then
+            echo "::error::plugin.ini is not at the archive root; eFront would reject this file"
+            exit 1
+          fi
+
+          # A Windows-built archive can carry backslash separators, which extract
+          # on Linux as one file with a backslash in its name instead of a folder.
+          if unzip -Z1 dist/ADPhotoSync.zip | grep -q '\\'; then
+            echo "::error::the archive contains backslash separators"
+            exit 1
+          fi
+
+          if ! unzip -Z1 dist/ADPhotoSync.zip | grep -qx 'Model/ADPhotoSyncPlugin.php'; then
+            echo "::error::the plugin class is missing from the archive"
+            exit 1
+          fi
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The release may already exist (created by hand); create it otherwise.
+          if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" \
+              --title "ADPhotoSync ${GITHUB_REF_NAME#v}" \
+              --generate-notes
+          fi
+
+          gh release upload "$GITHUB_REF_NAME" dist/ADPhotoSync.zip --clobber

@@ -1,0 +1,25 @@
+{
+    "name": "stardado/adphotosync",
+    "description": "ADPhotoSync plugin for eFront - synchronises user profile photos from Active Directory",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Denis Apel"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-ldap": "*",
+        "ext-gd": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Efront\\Plugin\\ADPhotoSync\\": "./"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

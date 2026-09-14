@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"
+     role="img" aria-label="Active Directory photo synchronisation">
+    <title>Active Directory photo synchronisation</title>
+
+    <!-- Line art to match the other icons on the administrator dashboard. -->
+    <g fill="none" stroke="#1f3b57" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Synchronisation ring, drawn as two arcs with gaps for the arrowheads. -->
+        <path d="M115.1 204.7 A150 150 0 0 1 396.9 204.7"/>
+        <path d="M396.9 307.3 A150 150 0 0 1 115.1 307.3"/>
+
+        <!-- Person: head and shoulders. -->
+        <circle cx="256" cy="222" r="40"/>
+        <path d="M190 322c0-36 30-56 66-56s66 20 66 56"/>
+    </g>
+
+    <!-- Arrowheads, following the direction of rotation. -->
+    <g fill="#1f3b57">
+        <path d="M366 196h62l-31 52z"/>
+        <path d="M146 316H84l31-52z"/>
+    </g>
+</svg>
