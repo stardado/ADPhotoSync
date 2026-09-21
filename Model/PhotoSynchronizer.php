@@ -67,8 +67,13 @@ class PhotoSynchronizer
      *            Accounts found to have no photo are still recorded, since that
      *            is the answer being asked for; accounts that do have one are
      *            left untouched so the next real run still writes them.
+     * @param bool $ignoreRetryWindow
+     *          - Look at every account again, even one that recently had no
+     *            photo. What the scheduled run skips for good reason, a person
+     *            pressing the button means literally: they have just put the
+     *            pictures in the directory and want them now.
      */
-    public function run(bool $dryRun = false): SyncResult
+    public function run(bool $dryRun = false, bool $ignoreRetryWindow = false): SyncResult
     {
         $result = new SyncResult();
         $result->dryRun = $dryRun;
@@ -79,7 +84,7 @@ class PhotoSynchronizer
         // identical error against every single user.
         $this->directory->connect();
 
-        foreach ($this->getCandidates() as $candidate) {
+        foreach ($this->getCandidates($ignoreRetryWindow) as $candidate) {
             $result->examined++;
 
             try {
@@ -344,7 +349,7 @@ class PhotoSynchronizer
      *
      * @return array<int, array<string, mixed>>
      */
-    private function getCandidates(): array
+    private function getCandidates(bool $ignoreRetryWindow = false): array
     {
         $conditions = $this->populationConditions();
 
@@ -359,12 +364,18 @@ class PhotoSynchronizer
         }
 
         // Do not re-read the directory for accounts that recently had no photo
-        // or failed outright.
-        $conditions[] = sprintf(
-            '(`s`.`last_attempt` IS NULL OR `s`.`status` = %s OR `s`.`last_attempt` < %d)',
-            $this->db->Quote(ADPhotoSync::STATUS_SYNCED),
-            time() - ($this->settings->getRetryAfterHours() * 3600)
-        );
+        // or failed outright — but only when nobody is watching. The retry
+        // window exists to keep the nightly run cheap; on a run started by hand
+        // it would just make the button look broken, because the very accounts
+        // the administrator has just fixed in the directory are the ones it
+        // skips.
+        if (!$ignoreRetryWindow) {
+            $conditions[] = sprintf(
+                '(`s`.`last_attempt` IS NULL OR `s`.`status` = %s OR `s`.`last_attempt` < %d)',
+                $this->db->Quote(ADPhotoSync::STATUS_SYNCED),
+                time() - ($this->settings->getRetryAfterHours() * 3600)
+            );
+        }
 
         return $this->db->getTableData(
             $this->candidateFrom(),

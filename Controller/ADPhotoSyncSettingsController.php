@@ -396,12 +396,13 @@ class ADPhotoSyncSettingsController extends BaseController
     }
 
     /**
-     * Runs a batch immediately, ignoring the configured interval.
+     * Runs a batch immediately, ignoring both the configured interval and the
+     * retry window: a run started by hand means now, and for every account.
      */
     private function handleFullRun(ADPhotoSyncSettings $settings, bool $dryRun): void
     {
         try {
-            $result = (new PhotoSynchronizer($settings))->run($dryRun);
+            $result = (new PhotoSynchronizer($settings))->run($dryRun, true);
 
             $message = ADPhotoSync::t('Synchronisation finished') . ': ' . SyncResult::describeStored($result->toStorage());
 

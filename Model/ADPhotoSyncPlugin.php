@@ -21,7 +21,7 @@ use Efront\Plugin\ADPhotoSync\Controller\ADPhotoSyncSettingsController;
  */
 class ADPhotoSyncPlugin extends AbstractPlugin
 {
-    public const VERSION = '2.12.0'; // @phpstan-ignore-line
+    public const VERSION = '2.13.3'; // @phpstan-ignore-line
     public const PLUGIN_NAME = ADPhotoSync::PLUGIN_NAME;
 
     /**
@@ -78,21 +78,32 @@ class ADPhotoSyncPlugin extends AbstractPlugin
     }
 
     /**
-     * Drops the plugin's own tables.
+     * Drops the settings, keeps the state.
      *
-     * Avatars already written to users are intentionally left in place: they are
-     * ordinary eFront avatars, and removing them would blank out profiles.
+     * eFront has no in-place update for plugins: installing a new version
+     * removes the old one first, and this method runs every single time. It
+     * therefore must not destroy anything that cannot be rebuilt.
+     *
+     * The state table is exactly that. It records which avatar this plugin
+     * wrote for which account, and that is how a later run recognises its own
+     * work — without it, every picture we put there looks like one the user
+     * uploaded, and with "overwrite existing pictures" switched off those
+     * accounts silently drop out of every run. Losing the table therefore
+     * quietly disables the plugin for everyone it had already served. It is
+     * left in place for the same reason the avatars are: removing it breaks
+     * something the administrator did not ask to have broken.
+     *
+     * Settings are dropped, as an uninstall should not leave directory
+     * credentials behind. A reinstall recreates the table with its defaults.
      */
     public function uninstallPlugin()
     {
         $db = Database::getInstance();
 
-        foreach ([ADPhotoSync::STATE_TABLE, ADPhotoSync::SETTINGS_TABLE] as $table) {
-            try {
-                $db->execute(sprintf('DROP TABLE IF EXISTS `%s`;', $table));
-            } catch (\Exception $e) {
-                error_log(sprintf('[ADPhotoSync] could not drop %s: %s', $table, $e->getMessage()));
-            }
+        try {
+            $db->execute(sprintf('DROP TABLE IF EXISTS `%s`;', ADPhotoSync::SETTINGS_TABLE));
+        } catch (\Exception $e) {
+            error_log(sprintf('[ADPhotoSync] could not drop %s: %s', ADPhotoSync::SETTINGS_TABLE, $e->getMessage()));
         }
     }
 
