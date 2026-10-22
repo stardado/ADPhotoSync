@@ -21,7 +21,7 @@ use Efront\Plugin\ADPhotoSync\Controller\ADPhotoSyncSettingsController;
  */
 class ADPhotoSyncPlugin extends AbstractPlugin
 {
-    public const VERSION = '2.13.3'; // @phpstan-ignore-line
+    public const VERSION = '2.13.4'; // @phpstan-ignore-line
     public const PLUGIN_NAME = ADPhotoSync::PLUGIN_NAME;
 
     /**
@@ -162,25 +162,14 @@ class ADPhotoSyncPlugin extends AbstractPlugin
     }
 
     /**
-     * Adds the plugin to the "Plugin Links" drawer in the side navigation.
+     * Deliberately no onNavbarList().
      *
-     * The host passes the plugin-links array as the first argument, so appending
-     * here is what makes the entry appear.
-     *
-     * @param array<int, array<string, mixed>> $options
+     * Implementing that hook would add an entry to the "Plugin links" drawer in
+     * the side navigation — and the drawer itself only appears once some plugin
+     * fills it. A tool an administrator reaches for a few times a year does not
+     * earn a permanent place in the navigation beside daily work; the dashboard
+     * tile is where it belongs, and that is where onLoadIconList() puts it.
      */
-    public function onNavbarList(&$options)
-    {
-        if (!$this->currentUserMayUse()) {
-            return;
-        }
-
-        $options[] = [
-            'text'   => $this->plugin->title,
-            'href'   => UrlhelperController::url(['ctg' => $this->plugin->name]),
-            'plugin' => true,
-        ];
-    }
 
     /**
      * Routes the plugin's admin page.

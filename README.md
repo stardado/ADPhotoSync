@@ -14,19 +14,39 @@ application.
 
 ## Requirements
 
-- eFront 5.2.18 or newer (developed against 7.8.3)
-- PHP 8.0 or newer with the `ldap`, `gd` and `json` extensions
+- PHP with the `ldap`, `gd` and `json` extensions
 - A read-only service account that may bind to the directory and read
   `thumbnailPhoto`
 
 No ImageMagick and no `ldapsearch` binary are needed; the plugin uses PHP's own
 LDAP and GD extensions.
 
+## Tested with
+
+This is what the plugin has actually been run against, in production, rather
+than a range it is assumed to cover:
+
+| | |
+| --- | --- |
+| eFront | 7.8.3, then 8.2.1 after an in-place upgrade |
+| PHP | 8.0, then 8.4.27 |
+| Database | MariaDB 10.11 |
+| Operating system | Ubuntu 24.04 LTS |
+| Directory | Active Directory over LDAPS, bound with a service account |
+
+`plugin.ini` declares 5.2.18 as the minimum eFront version, but nothing older
+than 7.8.3 has been tried. The PHP versions in between — 8.1 to 8.3 — have not
+been exercised either; the code carries nothing that 8.4 deprecates, so they
+ought to work, but that is reasoning rather than evidence.
+
 ## Installation
 
-Pack the contents of this repository into a ZIP named `ADPhotoSync.zip` — with
-`plugin.ini` at the archive root, not inside a folder — and upload it under
-**Administrator → Plugins → Install new plugin**.
+Download `ADPhotoSync.zip` from the
+[latest release](https://github.com/stardado/ADPhotoSync/releases/latest) and
+upload it under **Administrator → Plugins → Install new plugin**. Building it
+yourself works too: pack the contents of this repository into a ZIP named
+`ADPhotoSync.zip`, with `plugin.ini` at the archive root rather than inside a
+folder.
 
 The file name matters. eFront extracts the upload into a directory named after
 it and then looks for the class declared in `plugin.ini` at
@@ -38,6 +58,12 @@ automatically installed"*.
 Then open the **AD Photo Sync** tile on the administrator dashboard, fill in the
 directory settings, press **Test connection**, and import a single user to check
 the result before enabling automatic synchronisation.
+
+The dashboard tile is the only way in, on purpose. The plugin does not add
+itself to the **Plugin links** drawer in the side navigation: eFront shows that
+drawer only once some plugin fills it, so installing this one would otherwise
+conjure up a whole menu that was not there before — for a tool an administrator
+opens a few times a year.
 
 ## How it works
 
@@ -72,6 +98,16 @@ a secondary SMTP address and makes the new one primary, so a search on `mail`
 alone no longer finds the person. Listing `proxyAddresses` under **Mail
 attributes** covers every address of the mailbox.
 
+**A run started by hand looks at everyone.** The retry window below keeps the
+scheduled run from asking the directory again about accounts that had no photo
+last time. It does not apply to **Synchronise now** or **Check only**: someone
+who has just put the missing pictures into the directory wants them now, and
+skipping exactly those accounts is what makes the button look broken.
+
+**The plugin remembers which avatar it wrote.** That is the only way a later run
+can tell its own work from a picture the user uploaded, and it is why updating
+the plugin must not throw that record away — see *Uninstalling* below.
+
 **Restart PHP after updating the plugin.** gettext loads a translation catalogue
 once per process and keeps it, so parts of the interface fall back to English
 until the workers are replaced. The settings page detects this and says so.
@@ -91,11 +127,25 @@ until the workers are replaced. The settings page detects this and says so.
 | Enable automatic synchronisation | off | Whether the cron hook does anything |
 | Users per run | 100 | Upper bound on users examined per run |
 | Minimum hours between runs | 24 | Throttles the cron hook |
-| Retry users without a photo after (hours) | 168 | Avoids re-reading the directory for accounts with no picture |
+| Retry users without a photo after (hours) | 168 | Scheduled runs only; a run started by hand ignores it |
 | Replace photos that users uploaded themselves | off | Off by default; pictures uploaded by hand are preserved |
 
-Uninstalling drops the plugin's own tables but deliberately leaves the written
-avatars in place, since removing them would blank out profiles.
+## Uninstalling
+
+Uninstalling drops the settings, so no directory credentials are left behind.
+
+Two things are deliberately kept. The **avatars**, because removing them would
+blank out profiles, and they are ordinary eFront avatars by then. And the
+**state table**, which records what the plugin wrote for whom.
+
+That second one matters more than it sounds. eFront has no in-place update for
+plugins: installing a new version uninstalls the old one first, so the uninstall
+path runs on every update. A version that dropped the state table therefore
+erased its own memory each time — after which every picture it had placed looked
+like one the user had uploaded, and with **Replace photos that users uploaded
+themselves** switched off, exactly those accounts fell out of every later run.
+The plugin went on working while quietly ignoring everyone it had already
+served.
 
 ## Translations
 

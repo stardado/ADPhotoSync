@@ -288,7 +288,7 @@ msgstr "\"%s\" wird durch das Ausschlussmuster erfasst und deshalb ignoriert."
 #. catalogue was built for, so a stale catalogue can be detected.
 #: Model/ADPhotoSync.php
 msgid "__catalogue_version__"
-msgstr "2.13.3"
+msgstr "2.13.4"
 
 #: Controller/ADPhotoSyncSettingsController.php
 msgid ""

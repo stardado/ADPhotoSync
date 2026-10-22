@@ -2,6 +2,15 @@
 
 All notable changes to this plugin are documented here.
 
+## [2.13.4] - 2026-10-22
+
+### Changed
+- **No entry in the "Plugin links" drawer any more.** The plugin used to add
+  itself to the side navigation, and because eFront shows that drawer only once
+  some plugin fills it, installing this one could conjure up a whole menu that
+  was not there before. A tool an administrator opens a few times a year does
+  not belong beside daily work; the dashboard tile stays and is the way in.
+
 ## [2.13.3] - 2026-09-21
 
 ### Fixed
